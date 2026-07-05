@@ -1,204 +1,366 @@
-# 📱 العيادة الذكية — Flutter App
+# 📱 Smart Clinic — Flutter App
 
-تطبيق Flutter كامل لإدارة المواعيد الطبية يعمل على Android وWeb.
-
----
-
-## 🛠 Tech Stack
-
-| الطبقة | التقنية |
-|--------|---------|
-| Framework | Flutter 3.x (Dart 3.3+) |
-| State Management | flutter_bloc 8.x |
-| Navigation | go_router 14.x |
-| Networking | dio 5.x + pretty_dio_logger |
-| Token Storage | flutter_secure_storage 9.x |
-| UI Fonts | google_fonts (Cairo) |
-| Date Formatting | intl + table_calendar |
+A complete cross-platform **Flutter** application for managing medical appointments, optimized for **Android** and **Web**.
 
 ---
 
-## 📁 هيكل المشروع
+# 🛠 Tech Stack
 
-```
+| Layer                | Technology                  |
+| -------------------- | --------------------------- |
+| **Framework**        | Flutter 3.x (Dart 3.3+)     |
+| **State Management** | flutter_bloc 8.x            |
+| **Navigation**       | go_router 14.x              |
+| **Networking**       | dio 5.x + pretty_dio_logger |
+| **Secure Storage**   | flutter_secure_storage 9.x  |
+| **Fonts**            | google_fonts (Cairo)        |
+| **Date & Calendar**  | intl + table_calendar       |
+
+---
+
+# 📁 Project Structure
+
+```text
 lib/
-├── main.dart                          ← نقطة الدخول + DI
-├── app_router.dart                    ← GoRouter + Guards
+├── main.dart                          # Entry Point + Dependency Injection
+├── app_router.dart                    # GoRouter Configuration + Route Guards
+│
 ├── core/
-│   ├── constants/app_constants.dart   ← Base URL, Storage Keys
-│   ├── network/api_client.dart        ← Dio + AuthInterceptor + Failure classes
-│   ├── storage/secure_storage_service.dart ← JWT storage
-│   └── theme/app_theme.dart           ← Colors, Typography, Theme
+│   ├── constants/
+│   │   └── app_constants.dart         # Base URL & Storage Keys
+│   │
+│   ├── network/
+│   │   └── api_client.dart            # Dio Setup + AuthInterceptor
+│   │
+│   ├── storage/
+│   │   └── secure_storage_service.dart
+│   │
+│   └── theme/
+│       └── app_theme.dart
+│
 ├── features/
 │   ├── auth/
 │   │   ├── data/
-│   │   │   ├── datasources/auth_datasource.dart
-│   │   │   └── models/auth_models.dart
+│   │   │   ├── datasources/
+│   │   │   │   └── auth_datasource.dart
+│   │   │   └── models/
+│   │   │       └── auth_models.dart
+│   │   │
 │   │   └── presentation/
-│   │       ├── bloc/auth_bloc.dart    ← Events, States, BLoC
+│   │       ├── bloc/
+│   │       │   └── auth_bloc.dart
+│   │       │
 │   │       └── pages/
 │   │           ├── splash_page.dart
 │   │           ├── login_page.dart
 │   │           └── register_page.dart
+│   │
 │   ├── appointments/
 │   │   ├── data/
-│   │   │   ├── datasources/appointments_datasource.dart
-│   │   │   └── models/appointment_model.dart
+│   │   │   ├── datasources/
+│   │   │   │   └── appointments_datasource.dart
+│   │   │   └── models/
+│   │   │       └── appointment_model.dart
+│   │   │
 │   │   └── presentation/
-│   │       └── bloc/appointments_bloc.dart
+│   │       └── bloc/
+│   │           └── appointments_bloc.dart
+│   │
 │   ├── patient/
-│   │   └── presentation/pages/patient_dashboard_page.dart
+│   │   └── presentation/
+│   │       └── pages/
+│   │           └── patient_dashboard_page.dart
+│   │
 │   └── doctor/
-│       └── presentation/pages/doctor_dashboard_page.dart
-└── shared/widgets/shared_widgets.dart  ← Reusable components
+│       └── presentation/
+│           └── pages/
+│               └── doctor_dashboard_page.dart
+│
+└── shared/
+    └── widgets/
+        └── shared_widgets.dart
 ```
 
 ---
 
-## ⚙️ الإعداد والتشغيل
+# ⚙️ Setup & Run
 
-### 1. تأكد من تثبيت Flutter
+## 1️⃣ Verify Flutter Installation
+
 ```bash
-flutter --version   # يجب أن يكون 3.x أو أحدث
+flutter --version
 ```
 
-### 2. ثبّت الـ dependencies
+> Flutter **3.x** or newer is required.
+
+---
+
+## 2️⃣ Install Dependencies
+
 ```bash
 cd smart_clinic_app
 flutter pub get
 ```
 
-### 3. تأكد من تشغيل الباكيند
-تأكد أن `smart-clinic-backend` يعمل على المنفذ 3000.
+---
 
-### 4. عدّل الـ Base URL حسب بيئتك
+## 3️⃣ Start the Backend
 
-افتح `lib/core/constants/app_constants.dart`:
+Make sure the **smart-clinic-backend** service is running on:
 
-```dart
-// للمحاكي (Android Emulator)
-static const String baseUrl = 'http://10.0.2.2:3000/api/v1';
-
-// للجهاز الحقيقي (استبدل بـ IP جهازك)
-static const String baseUrl = 'http://192.168.1.x:3000/api/v1';
-
-// للويب (flutter run -d chrome)
-static const String baseUrl = 'http://localhost:3000/api/v1';
+```text
+http://localhost:3000
 ```
 
-### 5. شغّل التطبيق
+---
+
+## 4️⃣ Configure API Base URL
+
+Open:
+
+```text
+lib/core/constants/app_constants.dart
+```
+
+Update the base URL according to your environment.
+
+### Android Emulator
+
+```dart
+static const String baseUrl =
+    'http://10.0.2.2:3000/api/v1';
+```
+
+### Physical Android Device
+
+```dart
+static const String baseUrl =
+    'http://192.168.1.x:3000/api/v1';
+```
+
+### Flutter Web
+
+```dart
+static const String baseUrl =
+    'http://localhost:3000/api/v1';
+```
+
+---
+
+## 5️⃣ Run the App
+
+### Android
 
 ```bash
-# للمحاكي أو الجهاز
 flutter run
-
-# للويب
-flutter run -d chrome
-
-# لبناء APK
-flutter build apk --release
-
-# لبناء APK مصغّر (أصغر حجم)
-flutter build apk --split-per-abi
 ```
 
----
-
-## 🗺 تدفق التطبيق
-
-```
-Splash Screen
-    ↓ (تحقق من التوكن)
-    ├─ لوحة المريض ← يوجد توكن + role=patient
-    ├─ لوحة الطبيب ← يوجد توكن + role=doctor
-    └─ تسجيل الدخول ← لا يوجد توكن
-         └─ إنشاء حساب (اختياري)
-```
-
----
-
-## 🔐 نظام المصادقة
-
-- **JWT** يُحفظ في `flutter_secure_storage` (مشفّر على Android بـ EncryptedSharedPreferences)
-- **AuthInterceptor** يُضيف `Authorization: Bearer <token>` تلقائياً لكل request
-- **GoRouter redirect** يحمي المسارات حسب حالة AuthBloc
-- عند الخروج يُحذف التوكن وبيانات المستخدم كاملاً
-
----
-
-## 📱 الشاشات
-
-| الشاشة | الوصف | الدور |
-|--------|-------|-------|
-| Splash | شاشة تحميل مع التحقق التلقائي | الجميع |
-| Login | تسجيل الدخول | الجميع |
-| Register | تسجيل حساب جديد (طبيب/مريض) | الجميع |
-| Patient Dashboard | الرئيسية + الأطباء + مواعيدي + الملف | مريض |
-| Doctor Dashboard | لوحة التحكم + المواعيد + الملف | طبيب |
-
-### لوحة المريض
-- ✅ رؤية المواعيد القادمة والسابقة
-- ✅ تصفح قائمة الأطباء مع البحث
-- ✅ حجز موعد (اختيار تاريخ + وقت)
-- ✅ إلغاء موعد
-- ✅ رؤية الملاحظات الطبية بعد الكشف
-
-### لوحة الطبيب
-- ✅ إحصائيات اليوم (إجمالي، انتظار، مكتملة)
-- ✅ قائمة مواعيد اليوم
-- ✅ تأكيد/إلغاء المواعيد
-- ✅ إتمام الكشف مع إضافة الوصفة
-- ✅ فلترة المواعيد حسب الحالة
-
----
-
-## 🎨 نظام التصميم
-
-```dart
-// الألوان الرئيسية
-AppColors.primary        // #0B6E7C — تيل طبي
-AppColors.accent         // #F5A623 — أمبر للـ CTAs
-AppColors.success        // #2ECC71
-AppColors.error          // #E74C3C
-
-// الخط
-GoogleFonts.cairo()      // خط عربي احترافي
-
-// المكونات المشتركة
-StatusBadge(status)      // شارة حالة الموعد
-ClinicHeader(...)        // هيدر بتدرج لوني
-ShimmerCard(...)         // Loading skeleton
-EmptyState(...)          // حالة البيانات الفارغة
-ClinicTextField(...)     // حقل إدخال موحّد
-StatCard(...)            // بطاقة إحصائية
-```
-
----
-
-## 🚀 بناء الـ APK للرفع على Moodle
+### Web
 
 ```bash
-# APK واحد للكل
-flutter build apk --release
+flutter run -d chrome
+```
 
-# أو APKs منفصلة لكل معمارية (أصغر حجم وأفضل)
+### Build Release APK
+
+```bash
+flutter build apk --release
+```
+
+### Build Split APKs
+
+```bash
 flutter build apk --split-per-abi
 ```
 
-ستجد الملفات في:
+---
+
+# 🗺 Application Flow
+
+```text
+Splash Screen
+        │
+        ▼
+Token Verification
+        │
+ ┌──────┼─────────────┐
+ │      │             │
+ ▼      ▼             ▼
+Patient Doctor      Login
+Dashboard Dashboard  Page
+                      │
+                      ▼
+                  Register
 ```
+
+---
+
+# 🔐 Authentication & Security
+
+* ✅ JWT tokens are securely stored using **flutter_secure_storage**.
+* ✅ Android uses **EncryptedSharedPreferences**.
+* ✅ `AuthInterceptor` automatically attaches:
+
+```http
+Authorization: Bearer <token>
+```
+
+to every request.
+
+* ✅ `GoRouter` guards all protected routes.
+* ✅ Logout clears secure storage and resets authentication state.
+
+---
+
+# 📱 Screens
+
+| Screen            | Description                     | Role    |
+| ----------------- | ------------------------------- | ------- |
+| Splash            | Authentication check            | All     |
+| Login             | User sign in                    | All     |
+| Register          | Create Patient/Doctor account   | All     |
+| Patient Dashboard | Home, Booking, Doctors, Profile | Patient |
+| Doctor Dashboard  | Analytics, Queue, Profile       | Doctor  |
+
+---
+
+# 👨‍⚕️ Patient Features
+
+* ✅ View upcoming appointments
+* ✅ View appointment history
+* ✅ Search doctors
+* ✅ Book appointments
+* ✅ Cancel appointments
+* ✅ View prescriptions
+* ✅ View medical notes
+
+---
+
+# 🩺 Doctor Features
+
+* ✅ Dashboard analytics
+* ✅ Today's appointments
+* ✅ Accept appointments
+* ✅ Reject appointments
+* ✅ Complete examinations
+* ✅ Write prescriptions
+* ✅ Clinical reports
+* ✅ Filter appointments by status
+
+---
+
+# 🎨 Design System
+
+## Colors
+
+```dart
+AppColors.primary   // #0B6E7C
+AppColors.accent    // #F5A623
+AppColors.success   // #2ECC71
+AppColors.error     // #E74C3C
+```
+
+---
+
+## Typography
+
+```dart
+GoogleFonts.cairo()
+```
+
+---
+
+## Shared Widgets
+
+```dart
+StatusBadge(status)
+
+ClinicHeader(...)
+
+ShimmerCard(...)
+
+EmptyState(...)
+
+ClinicTextField(...)
+
+StatCard(...)
+```
+
+---
+
+# 🚀 Production Build
+
+Universal APK
+
+```bash
+flutter build apk --release
+```
+
+Split APKs
+
+```bash
+flutter build apk --split-per-abi
+```
+
+Generated files:
+
+```text
 build/app/outputs/flutter-apk/
-├── app-release.apk            (APK واحد للكل)
-# أو
+
+├── app-release.apk
 ├── app-armeabi-v7a-release.apk
-├── app-arm64-v8a-release.apk  ← هذا للأجهزة الحديثة
+├── app-arm64-v8a-release.apk
 └── app-x86_64-release.apk
 ```
 
 ---
 
-## ⚠️ ملاحظات مهمة
+# ⚠️ Important Notes
 
-1. **CORS**: تأكد أن الباكيند يقبل الطلبات من `http://localhost` للويب
-2. **cleartext**: `android:usesCleartextTraffic="true"` مضاف للتطوير المحلي، أزله في production
-3. **minSdk**: 21 (Android 5.0+) — يغطي أكثر من 98% من الأجهزة
+### CORS
+
+Allow requests from:
+
+```text
+http://localhost
+```
+
+when testing the Web application.
+
+---
+
+### Cleartext Traffic
+
+For local development:
+
+```xml
+android:usesCleartextTraffic="true"
+```
+
+Remove this setting before production deployment.
+
+---
+
+### Minimum Android SDK
+
+```text
+minSdkVersion = 21
+```
+
+Supports Android **5.0+** devices.
+
+---
+
+# ✅ Summary
+
+Smart Clinic is a modern Flutter application that provides:
+
+* Secure JWT authentication
+* Patient & Doctor dashboards
+* Appointment management
+* Role-based navigation
+* Clean Architecture
+* BLoC state management
+* GoRouter navigation
+* Responsive Android & Web support
+* Production-ready project structure
