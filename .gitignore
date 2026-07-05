@@ -1,0 +1,73 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.project
+.directory
+
+# Flutter/Dart/Pub-related
+**/doc/api/
+**/ios/Flutter/.testnet
+**/ios/Flutter/ephemeral/
+**/markdown_to_pdf/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Android-specific
+.gradle/
+/android/app/DebugProbesKt.bin
+/android/local.properties
+/android/generated_patchable_src_dir/
+/android/app/src/main/res/drawable-anydpi-v26/
+/android/app/src/main/res/mipmap-anydpi-v26/
+*.apk
+*.ap_
+*.aab
+
+# iOS-specific
+/ios/Pods/
+/ios/.symlinks/
+/ios/Flutter/App.framework
+/ios/Flutter/Flutter.framework
+/ios/Flutter/Flutter.podspec
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/flutter_export_environment.sh
+/ios/ServiceDefinitions.json
+/ios/Runner/GeneratedPluginRegistrant.h
+/ios/Runner/GeneratedPluginRegistrant.m
+/ios/Runner/xcshareddata/
+/ios/DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+xcuserdata/
+
+# Web-specific
+.generated_plugins
+build/web/
+
+# Development Tools (VS Code & Android Studio)
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Secrets & Environment Variables (Crucial for Smart Clinic App)
+.env
+.env.*
